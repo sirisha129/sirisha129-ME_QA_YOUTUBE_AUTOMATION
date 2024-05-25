@@ -84,7 +84,7 @@ public class TestCases {
 
             utility.scrollBy(0, 600);
             Actions actions = new Actions(driver);
-            // click on Films Tab
+            // click on Movies Tab
             WebElement films_Tab = driver.findElement(By.xpath("//yt-formatted-string[text()='Movies']"));
             actions.moveToElement(films_Tab).perform();
             utility.click(films_Tab);
