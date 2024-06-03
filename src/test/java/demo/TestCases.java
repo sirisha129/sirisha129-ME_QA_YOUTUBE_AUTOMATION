@@ -147,10 +147,10 @@ public class TestCases {
 
             WebElement section1_nextButton = driver
                     .findElement(By.xpath("(//div[@id='right-arrow']//descendant::button[@aria-label='Next'])"));
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) { //use while loop until the element is not displayed as said by mentor
                 Thread.sleep(1000);
                 utility.click(section1_nextButton);
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
             }
 
             // Print the name of the playlist
@@ -161,6 +161,7 @@ public class TestCases {
             List<WebElement> trackCounts = driver.findElements(
                     By.xpath("(//p[contains(text(),'The choicest')]//following::p[contains(text(),'50 tra')])[1]"));
             for (WebElement trackCount : trackCounts) {
+                //it splits "50 tracks" and gives 50
                 int numTracks = Integer.parseInt(trackCount.getText().split(" ")[0]);
                 softAssert.assertTrue(numTracks <= 50, "Number of tracks is more than 50");
             }
@@ -193,28 +194,28 @@ public class TestCases {
             utility.click(news_Tab);
 
             // scroll to reach till 1st section list
-            utility.scrollBy(0, 500);
+            utility.scrollBy(0, 500);  //// Instead of using hardocded x and y ,use  x and y element cordinates
+            
             // Print the title of the Latest News Posts
             WebElement title_Latest = driver
                     .findElement(By.xpath("//span[@id='title'][contains(text(),'Latest news posts')]"));
             System.out.println("Title printed as : " + title_Latest.getText());
 
-            // first 3 contents of "Latest News Post"
+            // first 3 contents of "Latest News Post" and total likes 
             List<WebElement> body_Contents = driver.findElements(
                     By.xpath("//div[@id='content']//ytd-post-renderer//following-sibling::div//*[@id='body']/div[1]"));
-            for (int i = 0; i < 3; i++) {
-                for (WebElement body : body_Contents) {
-                    String content = body.getText();
-                    System.out.println("Content of the " + (i + 1) + " News:" + content);
-                    break;
-                }
-
-            }
-            // first 3 contents of "Latest News Post"
-            int totalLikes = 0;
             List<WebElement> likes_Total = driver.findElements(By.xpath("//span[@id='vote-count-middle']"));
+            
+            int totalLikes = 0;
+
             for (int i = 0; i < 3; i++) {
-                WebElement totalLikesElement = likes_Total.get(i);
+                if (i < body_Contents.size()) {
+                    WebElement body = body_Contents.get(i);
+                    String content = body.getText();
+                    System.out.println("Content of the " + (i + 1) + " News:" + content);                   
+                }
+                if(i< likes_Total.size()){
+                    WebElement totalLikesElement = likes_Total.get(i);
                 String likesText = totalLikesElement.getText();
     
                 // Convert likesText to a numeric value
@@ -226,8 +227,9 @@ public class TestCases {
                 }
     
                 totalLikes += likesCount;
+                }
 
-            }
+            }            
             System.out.println("Total Likes on the first 3 News Posts: " + totalLikes);
 
             System.out.println("End Test case: News tab contents printed successfully");

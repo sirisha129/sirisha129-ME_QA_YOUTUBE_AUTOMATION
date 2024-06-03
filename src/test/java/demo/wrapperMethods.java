@@ -65,7 +65,7 @@ public class wrapperMethods {
             System.out.println("Exception occurred while navigating to the URL: " + e.getMessage());
         }
     }
-
+    // keep unique names different from the inbuild ones...
     public void scrollBy(int x, int y) {
         try {
             js.executeScript("window.scrollBy(arguments[0], arguments[1]);", x, y);
